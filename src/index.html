@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>electron-sprout</title>
+        <script>
+            (
+                function() {
+                    if (!process.env.HOT) { // production环境下，加载打包后的style.css，css处理在webpack里。
+                        const link = document.createElement('link');
+                        link.ref = 'stylesheet';
+                        link.href = '../dist/style.css';
+                    }
+                }
+            )
+        </script>
+    </head>
+    <body>
+        <div id="root">
+          先写个hellowold在这，集成react的时候清掉
+        </div>
+    </body>
+    <script>
+        {   
+            const scripts = [];
+            const port = process.env.PORT || 1212;
+            // 开发环境下，加载webpack-dev-server下的js。
+            // 生产环境下，加载打包后的js
+            scripts.push(
+            (process.env.HOT)
+                ? 'http://localhost:' + port + '/dist/renderer.dev.js'
+                : '../dist/renderer.prod.js'
+            );
+            // 将需要加载的js写入页面，进行加载。
+            document.write(
+            scripts
+                .map(script => `<script defer src="${script}"><\/script>`)
+                .join('')
+            );
+        }
+    </script>
+</html>
