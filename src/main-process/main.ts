@@ -1,6 +1,6 @@
 
 import { app } from 'electron';
-import { createWindow } from './windows/main-window';
+import { createWindow } from './main-window';
 
 app.on('ready', async () => {
   createWindow();
