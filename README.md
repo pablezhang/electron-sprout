@@ -6,3 +6,5 @@
 - `Electron` 打包（win32\win64\mac）、发布（包含如何签名、如何设置证书、windows\mac）
 - `Electron` 升级（默认的升级方式存在windows上会先卸载再升级，存在问题，这里会做新的升级方案）
 - 如何解决360拦截问题
+
+博客地址：https://spcbacktolife.github.io
