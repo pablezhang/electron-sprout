@@ -1,1 +1,7 @@
-console.log('hello 秋泽雨');
+import ReactDOM from 'react-dom';
+import { App } from './pages/index';
+
+ReactDOM.render(
+  App(),
+  document.getElementById('root')
+);

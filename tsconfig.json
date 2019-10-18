@@ -1,16 +1,23 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+    "@/*": ["./*"]
+    }, // 定义全局路径快捷方式
      "strictNullChecks": true,
      "module": "commonjs",
      "esModuleInterop": true,
      "importHelpers": true,
      "allowSyntheticDefaultImports": true,
-     "target": "es5",
+     "experimentalDecorators": true, // 允许使用es6装饰器
+     "target": "es6",
+     "jsx": "react",
      "lib": [
-      "es2015"
+      "es2017",
+      "dom"
      ]
   },
   "include": [
-      "src" // write ts in src, you can define your own dir
+      "src", "config/babel-entry-config.js" // write ts in src, you can define your own dir
   ]
 }
