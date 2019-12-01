@@ -13,7 +13,7 @@ module.exports = merge.smart(baseConfig, {
   target: 'electron-renderer',
   entry: {
     renderer: [
-      require.resolve('../../src/render-process/index.tsx'),
+      require.resolve('../../src/sprout/render-process/index.tsx'),
       // 'react-hot-loader/patch',
       `webpack-dev-server/client?http://localhost:${port}/`,
       'webpack/hot/only-dev-server',
@@ -57,7 +57,7 @@ module.exports = merge.smart(baseConfig, {
     before() {
       if (process.env.START_HOT) {
         console.log('Starting Main Process...');
-        spawn('npm', ['run', 'start-main-dev'], {
+        spawn('npm', ['run', 'start-main-dev-amd'], {
           shell: true,
           env: process.env,
           stdio: 'inherit',

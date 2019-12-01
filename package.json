@@ -2,11 +2,17 @@
   "name": "webpack4-ts-environment",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./dist/main.prod.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "tsc --watch",
     "hot-dev": "nodemon",
-    "start-main-dev": "cross-env HOT=1 NODE_ENV=development electron -r @babel/register ./src/entry.dev.js",
+    "build": "concurrently \"yarn build-main\" \"yarn build-renderer\"",
+    "build-main": "cross-env NODE_ENV=production webpack --config ./config/webpack/webpack.config.main.prod.babel.js --colors",
+    "build-renderer": "cross-env NODE_ENV=production webpack --config ./config/webpack/webpack.config.renderer.prod.babel.js --colors",
+    "start-main-dev-normal": "cross-env HOT=1 NODE_ENV=development electron -r @babel/register ./src/entry.dev.js",
+    "start-main-dev-amd": "cross-env HOT=1 NODE_ENV=development electron ./src/main.js",
+    "package-production-win": "rm -rf ./release && yarn build && electron-builder build --win --ia32 --config ./config/builder/win-builder.yml",
     "dev": "cross-env START_HOT=1 webpack-dev-server --config ./config/webpack/webpack.config.renderer.dev.babel.js"
   },
   "author": "",
@@ -25,12 +31,16 @@
     "@types/react": "^16.9.9",
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.0.6",
+    "concurrently": "^5.0.0",
     "cross-env": "^6.0.3",
     "electron": "6.0.9",
+    "electron-builder": "^22.1.0",
+    "gulp-filter": "^6.0.0",
     "mini-css-extract-plugin": "^0.8.0",
     "mobx": "^5.14.0",
     "mobx-react": "^6.1.4",
     "nodemon": "^1.19.4",
+    "optimize-css-assets-webpack-plugin": "^5.0.3",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
     "react-router-dom": "^5.1.2",
@@ -38,11 +48,13 @@
     "ts-node": "^8.4.1",
     "typescript": "^3.6.4",
     "webpack": "^4.41.2",
+    "webpack-bundle-analyzer": "^3.6.0",
     "webpack-cli": "^3.3.9",
     "webpack-dev-server": "^3.8.2",
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "electron-log": "^3.0.9",
+    "gulp": "^4.0.2"
   }
 }
