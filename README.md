@@ -9,8 +9,23 @@
 - `Electron` 国际化
 - `Electron` 主题
 - `Electron` windows | mac 分支分离， 可切不同版本electron
-- `Electron` ts bindings
+- `Electron` ts
 - 服务的设计（main\render\通信）
 - 如何解决360拦截问题
 
 博客地址：https://spcbacktolife.github.io
+git: git@github.com:spcBackToLife/electron-sprout.git
+
+
+# 本项目建议使用`vscode`编辑器
+
+## 目录结构
+	-- .vscode // vscode编辑器配置文件，用于帮助隐藏一些不需要看的文件，比如编译后的ts等。
+  -- native-modules // 独立的npm包空间，存放需要`node-gyp`编译的依赖。
+	-- configs // webpack打包配置文件、应用构建配置文件
+	-- src // 主目录
+	-- scripts // 放置一些脚本文件
+	-- typings
+	-- sprout // 核心代码
+	-- resources // 静态资源
+	-- test-grammer // 快速测试语法和api的文件夹

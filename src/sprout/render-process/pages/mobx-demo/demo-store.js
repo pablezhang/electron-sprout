@@ -3,7 +3,7 @@ define(["require", "exports", "tslib", "mobx"], function (require, exports, tsli
     Object.defineProperty(exports, "__esModule", { value: true });
     // 做一些全局配置，比如： enforceActions，表示此store种更改状态必须使用action
     mobx_1.configure({
-        enforceActions: true,
+        enforceActions: "always",
         computedConfigurable: false,
     });
     class DemoStore {
@@ -21,11 +21,11 @@ define(["require", "exports", "tslib", "mobx"], function (require, exports, tsli
         }
         get cc() {
             console.log('属性变化了，执行此函数-cc');
-            return this.count + 2;
+            return this.count;
         }
         get bb() {
             console.log('属性变化了，执行此函数-bb');
-            return this.count + 2;
+            return this.count;
         }
     }
     tslib_1.__decorate([
