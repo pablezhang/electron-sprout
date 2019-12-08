@@ -1,3 +1,9 @@
+/*
+ * @Author: pikun
+ * @Date: 2019-12-04 19:48:33
+ * @LastEditTime: 2019-12-08 10:20:28
+ * @Description:
+ */
 
 const path = require('path');
 const merge = require('webpack-merge');
@@ -13,7 +19,7 @@ module.exports = merge.smart(baseConfig, {
   target: 'electron-renderer',
   entry: {
     renderer: [
-      require.resolve('../../src/sprout/render-process/index.tsx'),
+      require.resolve('../../src/sprout//index.tsx'),
       // 'react-hot-loader/patch',
       `webpack-dev-server/client?http://localhost:${port}/`,
       'webpack/hot/only-dev-server',

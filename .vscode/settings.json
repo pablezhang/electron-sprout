@@ -5,7 +5,7 @@
       ".git": true,
       ".build": true,
       "build": true,
-    //   "**/node_modules": true,
+      "**/node_modules": true,
       "build/**/*.js": {
           "when": "$(basename).ts"
       },
@@ -62,7 +62,5 @@
       "msjsdiag.debugger-for-chrome": "workspace"
   },
   "files.insertFinalNewline": true,
-  "python.pythonPath": "/Users/kp/Library/Application Support/xigua-browser-vscode/xiguaPlugin/xiguaPython/python/Resources/Python.app/Contents/MacOS/Python",
-  "python.linting.enabled": false,
   "editor.fontSize": 12
 }

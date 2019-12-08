@@ -6,15 +6,19 @@
     }, // 定义全局路径快捷方式
      "module": "amd",
      "esModuleInterop": false,
+     "preserveConstEnums": true,
 		 "moduleResolution": "node",
      "importHelpers": true,
      "allowSyntheticDefaultImports": true,
+     "noImplicitAny": true,
      "experimentalDecorators": true, // 允许使用es6装饰器
-     "target": "es6",
      "jsx": "react",
+     "target": "es2017",
      "lib": [
-      "es2017",
-      "dom"
+        "dom",
+        "es5",
+        "es2015.iterable",
+        "es2017.object"
      ]
   }
 }

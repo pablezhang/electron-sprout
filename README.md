@@ -1,3 +1,9 @@
+<!--
+ * @Author: pikun
+ * @Date: 2019-12-04 19:48:32
+ * @LastEditTime: 2019-12-08 09:40:35
+ * @Description:
+ -->
 ## ELECTRON-SPROUT
 `ELECTRON-SPROUT` 是我在博客中从0到1搭建的`Electron`框架，最终会搭建成一个完善的`Electron`企业级框架供大家使用。包含如下部分：
 - `Electron + React + Mobx + Typescript + Webpack` 基础框架
@@ -29,3 +35,36 @@ git: git@github.com:spcBackToLife/electron-sprout.git
 	-- sprout // 核心代码
 	-- resources // 静态资源
 	-- test-grammer // 快速测试语法和api的文件夹
+
+## sprout 核心目录结构
+-- sprout
+  -- windows // 管理多窗口的
+	  -- mainWindow
+			-- electron-main // 主进程使用
+			-- electron-renderer // 渲染进程使用
+			-- electron-bridge // 渲染进程与主进程通信处
+			-- common // 主进程渲染进程公用
+			-- index.html
+		-- otherWindow
+			-- electron-main // 主进程使用
+			-- electron-renderer // 渲染进程使用
+
+			-- electron-main // 主进程使用
+			-- electron-renderer // 渲染进程使用
+			-- electron-bridge // 渲染进程与主进程通信处
+			-- common // 主进程渲染进程
+	-- main.ts // 主入口
+
+本框架运行环境分为：`electron-main`, `electron-render`
+
+upath.normalizeSafe: 处理windows上路径问题，因此对于所有路径，均用此处理较好。
+
+Property 'toUrl' does not exist on type 'NodeRequire'  => yarn add @types/webpack-env -D
+
+
+'const' enums can only be used in property or index access expressions or the right hand side of an import declaration or export assignment or type query.
+
+
+=> "preserveConstEnums": true,
+
+Argument of type 'LifecycleMainPhase.Ready' is not assignable to parameter of type 'LifecyclePhase'.
