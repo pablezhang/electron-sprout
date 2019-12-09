@@ -16,10 +16,9 @@ class MainEntrance {
    * options = { flash?: boolean }
    */
   constructor(options) {
-
-    this.userDataPath = this._getUserDataPath();
-    app.setPath('userData', this.userDataPath);
     this.options = options; // 加载选项
+
+    this._setUserDataPath();
     log.info('启动options:', options);
     this.initEnvironment();
   }
@@ -40,7 +39,7 @@ class MainEntrance {
     Promise.all([nodeCachedDataDir.ensureExists()]).then(([cachedDataDir]) => {
       process.env[processEnv.SPROUT_NODE_CACHED_DATA_DIR] = cachedDataDir || '';
       log.info('ready to start');
-      require('./bootstrap-amd').load('sprout/main', () => {
+      require('./bootstrap-amd').load('sprout/event-test', () => {
         log.info('start done');
       });
     })
@@ -62,10 +61,14 @@ class MainEntrance {
   }
 
 // get app data absolute path
-_getUserDataPath() {
+_setUserDataPath() {
   log.info('_getUserDataPath-platform:', process.platform);
-  log.info('userDataPath:', path.resolve(paths.getDefaultUserDataPath(process.platform)));
-  return path.resolve(paths.getDefaultUserDataPath(process.platform));
+  if (!this.userDataPath) {
+    this.userDataPath = path.resolve(paths.getDefaultUserDataPath(process.platform));
+  }
+  log.info('userDataPath:', this.userDataPath);
+  app.setPath('userData', this.userDataPath);
+  return this.userDataPath;
 }
 
 _configureCommandlineSwitches() {

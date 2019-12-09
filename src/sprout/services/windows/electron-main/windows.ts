@@ -2,7 +2,7 @@
 /*
  * @Author: pikun
  * @Date: 2019-12-08 11:27:10
- * @LastEditTime: 2019-12-08 15:52:54
+ * @LastEditTime: 2019-12-09 14:45:12
  * @Description:
  */
 import { createDecorator } from 'sprout/instantiation/instantiation';
@@ -32,6 +32,13 @@ export interface ICodeWindow {
 	readonly win: Electron.BrowserWindow;
 
 	readonly lastFocusTime: number;
+	readonly isReady: boolean;
+	ready(): Promise<ICodeWindow>;
+
+	send(channel: string, ...args: any[]): void;
+	sendWhenReady(channel: string, ...args: any[]): void;
+
+	close(): void;
 
 	dispose(): void;
 }

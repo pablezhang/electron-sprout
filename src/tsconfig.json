@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-    "sprout/*": ["./sprout/*"]
+      "sprout/*": ["./sprout/*"]
     }, // 定义全局路径快捷方式
      "module": "amd",
      "esModuleInterop": false,

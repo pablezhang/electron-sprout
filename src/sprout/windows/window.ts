@@ -1,13 +1,14 @@
 /*
  * @Author: pikun
  * @Date: 2019-12-08 13:48:24
- * @LastEditTime: 2019-12-09 09:24:31
+ * @LastEditTime: 2019-12-09 14:45:27
  * @Description:
  */
 import { Disposable } from 'sprout/base/common/lifecycle';
 import { ICodeWindow, IWindowState, WindowMode } from 'sprout/services/windows/electron-main/windows';
 import { BrowserWindow } from 'electron';
 import { FuncRunningLog } from 'sprout/base/utils/log';
+import { ReadyState } from 'sprout/services/windows/common/windows';
 
 export interface IWindowCreationOptions {
 	state?: IWindowState;
@@ -29,10 +30,57 @@ export class CodeWindow extends Disposable implements ICodeWindow {
 	private static readonly MIN_HEIGHT = 120;
 	private static readonly MAX_URL_LENGTH = 2 * 1024 * 1024;
 	private hiddenTitleBarStyle: boolean;
+	private _readyState: ReadyState;
 	private _id: number;
 	private _win: Electron.BrowserWindow;
 	private _lastFocusTime: number;
 	private windowState: IWindowState;
+
+	private readonly whenReadyCallbacks: { (window: ICodeWindow): void }[];
+
+	close(): void {
+		if (this._win) {
+			this._win.close();
+		}
+	}
+
+	sendWhenReady(channel: string, ...args: any[]): void {
+		if (this.isReady) {
+			this.send(channel, ...args);
+		} else {
+			this.ready().then(() => this.send(channel, ...args));
+		}
+	}
+
+	send(channel: string, ...args: any[]): void {
+		if (this._win) {
+			this._win.webContents.send(channel, ...args);
+		}
+	}
+
+	setReady(): void {
+		this._readyState = ReadyState.READY;
+
+		// inform all waiting promises that we are ready now
+		while (this.whenReadyCallbacks.length) {
+			this.whenReadyCallbacks.pop()!(this);
+		}
+	}
+
+	ready(): Promise<ICodeWindow> {
+		return new Promise<ICodeWindow>(resolve => {
+			if (this.isReady) {
+				return resolve(this);
+			}
+
+			// otherwise keep and call later when we are ready
+			this.whenReadyCallbacks.push(resolve);
+		});
+	}
+
+	get isReady(): boolean {
+		return this._readyState === ReadyState.READY;
+	}
 
 	get id(): number {
 		return this._id;
@@ -50,6 +98,8 @@ export class CodeWindow extends Disposable implements ICodeWindow {
 		config: IWindowCreationOptions,
 	) {
 		super();
+		this.whenReadyCallbacks = [];
+
 		// create browser window
 		this.createBrowserWindow(config);
 

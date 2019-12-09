@@ -1,11 +1,15 @@
 /*
  * @Author: pikun
  * @Date: 2019-12-08 15:14:08
- * @LastEditTime: 2019-12-08 17:02:50
+ * @LastEditTime: 2019-12-09 12:21:46
  * @Description:
  */
 export const info = (...info: string[]) => {
   console.log(`[*]run-info:`, ...info);
+}
+
+export const runError =  (...info: string[]) => {
+  console.error(`[*]run-error:`, ...info);
 }
 /**
  * 仅限函数使用
