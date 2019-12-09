@@ -17,7 +17,7 @@ export class EnvironmentService implements IEnvironmentService {
 	@memoize
 	get userDataPath(): string {
 		// TODO: @pikun 当用户改变安装目录的时候，我们可能需要调整此目录？
-		return upath.normalizeSafe(app.getPath('userdata'));
+		return upath.normalizeSafe(app.getPath('userData'));
 	}
 
 	// TODO: @pikun 当用户改变安装目录的时候，我们可能需要调整此目录？

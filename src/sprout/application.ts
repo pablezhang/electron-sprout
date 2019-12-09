@@ -1,7 +1,7 @@
 /*
  * @Author: pikun
  * @Date: 2019-12-08 12:34:34
- * @LastEditTime: 2019-12-08 15:54:12
+ * @LastEditTime: 2019-12-08 22:47:03
  * @Description:
  */
 import { Disposable } from 'sprout/base/common/lifecycle';
@@ -16,6 +16,7 @@ import { WindowsManager } from 'sprout/windows/windowsManager';
 import { IWindowsService } from 'sprout/services/windows/common/windows';
 import { WindowsChannel } from 'sprout/services/windows/common/windowsIpc';
 import { FuncRunningLog } from 'sprout/base/utils/log';
+import { WindowsService } from 'sprout/services/windows/electron-main/windowsService';
 export class Application extends Disposable {
 	private windowsMainService: IWindowsMainService | undefined;
 	constructor(
@@ -33,7 +34,7 @@ export class Application extends Disposable {
 
 	@FuncRunningLog
 	async startup(): Promise<void> {
-		// Create Electron IPC Server
+		// Create Electron IPC Servers
 		const electronIpcServer = new ElectronIPCServer();
 		const appInstantiationService = await this.createServices();
 		const windows = appInstantiationService.invokeFunction(accessor => this.openFirstWindow(accessor, electronIpcServer));
@@ -45,6 +46,7 @@ export class Application extends Disposable {
 		//TODO: @pikun
 		const machineId = '12';
 		services.set(IWindowsMainService, new SyncDescriptor(WindowsManager, [machineId]));
+		services.set(IWindowsService, new SyncDescriptor(WindowsService))
 		return this.instantiationService.createChild(services);
 	}
 

@@ -1,7 +1,7 @@
 /*
  * @Author: pikun
  * @Date: 2019-12-08 13:48:24
- * @LastEditTime: 2019-12-08 15:59:43
+ * @LastEditTime: 2019-12-09 09:24:31
  * @Description:
  */
 import { Disposable } from 'sprout/base/common/lifecycle';
@@ -52,15 +52,22 @@ export class CodeWindow extends Disposable implements ICodeWindow {
 		super();
 		// create browser window
 		this.createBrowserWindow(config);
+
+	}
+
+	@FuncRunningLog
+	private restoreWindowState(state?: IWindowState): IWindowState {
+		// TODO: @pikun
+		return defaultWindowState();
 	}
 
 	@FuncRunningLog
 	private createBrowserWindow(config: IWindowCreationOptions): void {
+		this.windowState = this.restoreWindowState(config.state);
+
 		const options: Electron.BrowserWindowConstructorOptions = {
 			width: this.windowState.width,
 			height: this.windowState.height,
-			x: this.windowState.x,
-			y: this.windowState.y,
 			backgroundColor: "#ffffff",
 			minWidth: CodeWindow.MIN_WIDTH,
 			minHeight: CodeWindow.MIN_HEIGHT,

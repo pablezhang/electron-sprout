@@ -45,11 +45,20 @@ define(["require", "exports", "./graph", "./instantiation", "./descriptors", "./
             }
         }
         _getOrCreateServiceInstance(id) {
-            let service = this._services.get(id);
+            let service = this._getServiceInstanceOrDescriptor(id);
             // 如果是装饰类，则去实例化，否则直接返回实例。
             return (service instanceof descriptors_1.SyncDescriptor)
                 ? this._createAndCacheServiceInstance(id, service)
                 : service;
+        }
+        _getServiceInstanceOrDescriptor(id) {
+            let instanceOrDesc = this._services.get(id);
+            if (!instanceOrDesc && this._parent) {
+                return this._parent._getServiceInstanceOrDescriptor(id);
+            }
+            else {
+                return instanceOrDesc;
+            }
         }
         /**
          *
@@ -75,7 +84,7 @@ define(["require", "exports", "./graph", "./instantiation", "./descriptors", "./
                     throw new CyclicDependencyError(graph);
                 }
                 for (let dependency of instantiation_1.serviceIdManager.getServiceDependencies(item.desc.ctor)) {
-                    let instanceOrDesc = this._services.get(dependency.id);
+                    let instanceOrDesc = this._getServiceInstanceOrDescriptor(dependency.id);
                     // 如果当前节点依赖的服务不存在于此服务集合中，并且此服务是必须要实例化的依赖，则报错。
                     if (!instanceOrDesc && !dependency.optional) {
                         console.warn(`[createInstance] ${id} depends on ${dependency.id} which is NOT registered.`);

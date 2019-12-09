@@ -44,7 +44,6 @@ define(["require", "exports", "sprout/base/common/types", "sprout/base/common/co
                 node = newNode(data);
                 this._nodes[key] = node;
             }
-            console.log('this._nodes:', this._nodes);
             return node;
         }
         lookup(data) {

@@ -1,13 +1,15 @@
 /*
  * @Author: pikun
  * @Date: 2019-12-08 11:00:12
- * @LastEditTime: 2019-12-08 13:47:35
+ * @LastEditTime: 2019-12-08 22:24:35
  * @Description:
  */
 import { ipcMain as ipc, app } from 'electron';
 import { Event, Emitter } from 'sprout/base/common/event';
 import { createDecorator } from 'sprout/instantiation/instantiation';
 import { ICodeWindow } from 'sprout/services/windows/electron-main/windows';
+import { Disposable } from 'sprout/base/common/lifecycle';
+import { Barrier } from 'sprout/base/common/async';
 export const ILifecycleService = createDecorator<ILifecycleService>('lifecycleService');
 export const enum UnloadReason {
 	CLOSE = 1,
@@ -122,4 +124,90 @@ export const enum LifecycleMainPhase {
 	 * for the window to open.
 	 */
 	AfterWindowOpen = 3
+}
+
+
+export class LifecycleService extends Disposable implements ILifecycleService {
+	_serviceBrand: undefined;
+	private _wasRestarted: boolean = false;
+	get wasRestarted(): boolean { return this._wasRestarted; }
+
+	private _quitRequested = false;
+	get quitRequested(): boolean { return this._quitRequested; }
+
+	private _phase: LifecycleMainPhase = LifecycleMainPhase.Starting;
+	get phase(): LifecycleMainPhase { return this._phase; }
+
+	private readonly _onBeforeShutdown = this._register(new Emitter<void>());
+	readonly onBeforeShutdown: Event<void> = this._onBeforeShutdown.event;
+
+	private readonly _onWillShutdown = this._register(new Emitter<ShutdownEvent>());
+	readonly onWillShutdown: Event<ShutdownEvent> = this._onWillShutdown.event;
+
+	private readonly _onBeforeWindowClose = this._register(new Emitter<ICodeWindow>());
+	readonly onBeforeWindowClose: Event<ICodeWindow> = this._onBeforeWindowClose.event;
+
+	private readonly _onBeforeWindowUnload = this._register(new Emitter<IWindowUnloadEvent>());
+	readonly onBeforeWindowUnload: Event<IWindowUnloadEvent> = this._onBeforeWindowUnload.event;
+
+	private phaseWhen = new Map<LifecycleMainPhase, Barrier>();
+
+	constructor() {
+		super();
+
+		this.when(LifecycleMainPhase.Ready).then(() => this.registerListeners());
+	}
+
+	private registerListeners(): void {
+
+		app.addListener('before-quit', () => this.beforeQuitListener);
+
+		app.addListener('window-all-closed', this.windowAllClosedListener);
+	}
+
+	private windowAllClosedListener() {
+		app.quit();
+	}
+
+	private beforeQuitListener() {
+		if (this._quitRequested) {
+			return;
+		}
+
+		this._quitRequested = true;
+		this._onBeforeShutdown.fire();
+	}
+
+	private willQuitListener(e: any) {
+		e.preventDefault();
+		app.removeListener('before-quit', this.beforeQuitListener);
+		app.removeListener('window-all-closed', this.windowAllClosedListener);
+		app.quit();
+	}
+
+	async unload(window: ICodeWindow, reason: UnloadReason): Promise<boolean> {
+		throw new Error('Method not implemented.');
+	}
+	relaunch(options?: { addArgs?: string[]; removeArgs?: string[]; }): void {
+		throw new Error('Method not implemented.');
+	}
+	quit(fromUpdate?: boolean): Promise<boolean> {
+		throw new Error('Method not implemented.');
+	}
+	kill(code?: number): void {
+		throw new Error('Method not implemented.');
+	}
+	async when(phase: LifecycleMainPhase): Promise<void> {
+		if (phase <= this._phase) {
+			return;
+		}
+
+		let barrier = this.phaseWhen.get(phase);
+		if (!barrier) {
+			barrier = new Barrier();
+			this.phaseWhen.set(phase, barrier);
+		}
+
+		await barrier.wait();
+	}
 }

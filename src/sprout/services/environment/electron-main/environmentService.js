@@ -9,7 +9,7 @@ define(["require", "exports", "tslib", "sprout/base/common/decorator", "electron
         get args() { return this._args; }
         get userDataPath() {
             // TODO: @pikun 当用户改变安装目录的时候，我们可能需要调整此目录？
-            return upath_1.default.normalizeSafe(electron_1.app.getPath('userdata'));
+            return upath_1.default.normalizeSafe(electron_1.app.getPath('userData'));
         }
         // TODO: @pikun 当用户改变安装目录的时候，我们可能需要调整此目录？
         get appRoot() { return upath_1.default.normalize(electron_1.app.getAppPath()); }

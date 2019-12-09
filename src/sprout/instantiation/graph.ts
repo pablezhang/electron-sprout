@@ -1,7 +1,7 @@
 /*
  * @Author: pikun
  * @Date: 2019-12-07 17:43:21
- * @LastEditTime: 2019-12-07 21:08:58
+ * @LastEditTime: 2019-12-08 22:51:39
  * @Description: 用于处理实例依赖关系的图
  */
 import { isEmptyObject } from "sprout/base/common/types";
@@ -57,7 +57,6 @@ export class Graph<T> {
       node = newNode(data);
       this._nodes[key] = node;
     }
-    console.log('this._nodes:', this._nodes);
     return node;
   }
 

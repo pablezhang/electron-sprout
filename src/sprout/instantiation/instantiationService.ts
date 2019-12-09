@@ -56,12 +56,21 @@ export class InstantiationService implements IInstantiationService {
 		}
   }
   private _getOrCreateServiceInstance<T>(id: ServiceIdentifier<T>): T {
-    let service = this._services.get(id);
+    let service = this._getServiceInstanceOrDescriptor(id);
     // 如果是装饰类，则去实例化，否则直接返回实例。
     return (service instanceof SyncDescriptor)
      ? this._createAndCacheServiceInstance(id, service)
      : service;
   }
+
+  private _getServiceInstanceOrDescriptor<T>(id: ServiceIdentifier<T>): T | SyncDescriptor<T> {
+    let instanceOrDesc = this._services.get(id);
+		if (!instanceOrDesc && this._parent) {
+			return this._parent._getServiceInstanceOrDescriptor(id);
+		} else {
+			return instanceOrDesc;
+		}
+	}
 
   /**
    *
@@ -91,7 +100,7 @@ export class InstantiationService implements IInstantiationService {
 			}
 
       for(let dependency of serviceIdManager.getServiceDependencies(item.desc.ctor)) {
-        let instanceOrDesc = this._services.get(dependency.id);
+        let instanceOrDesc = this._getServiceInstanceOrDescriptor(dependency.id);
 
         // 如果当前节点依赖的服务不存在于此服务集合中，并且此服务是必须要实例化的依赖，则报错。
         if (!instanceOrDesc && !dependency.optional) {

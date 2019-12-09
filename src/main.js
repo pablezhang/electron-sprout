@@ -18,6 +18,7 @@ class MainEntrance {
   constructor(options) {
 
     this.userDataPath = this._getUserDataPath();
+    app.setPath('userData', this.userDataPath);
     this.options = options; // 加载选项
     log.info('启动options:', options);
     this.initEnvironment();

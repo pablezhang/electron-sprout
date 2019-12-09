@@ -1,7 +1,7 @@
 /*
  * @Author: pikun
  * @Date: 2019-12-04 19:48:33
- * @LastEditTime: 2019-12-08 10:20:28
+ * @LastEditTime: 2019-12-08 16:43:50
  * @Description:
  */
 
@@ -19,7 +19,7 @@ module.exports = merge.smart(baseConfig, {
   target: 'electron-renderer',
   entry: {
     renderer: [
-      require.resolve('../../src/sprout//index.tsx'),
+      require.resolve('../../src/sprout/windows/main-window/electron-render/index.tsx'),
       // 'react-hot-loader/patch',
       `webpack-dev-server/client?http://localhost:${port}/`,
       'webpack/hot/only-dev-server',

@@ -24,12 +24,15 @@ define(["require", "exports", "tslib", "sprout/base/common/lifecycle", "electron
         get win() {
             return this._win;
         }
+        restoreWindowState(state) {
+            // TODO: @pikun
+            return exports.defaultWindowState();
+        }
         createBrowserWindow(config) {
+            this.windowState = this.restoreWindowState(config.state);
             const options = {
                 width: this.windowState.width,
                 height: this.windowState.height,
-                x: this.windowState.x,
-                y: this.windowState.y,
                 backgroundColor: "#ffffff",
                 minWidth: CodeWindow.MIN_WIDTH,
                 minHeight: CodeWindow.MIN_HEIGHT,
@@ -59,6 +62,9 @@ define(["require", "exports", "tslib", "sprout/base/common/lifecycle", "electron
     CodeWindow.MIN_WIDTH = 200;
     CodeWindow.MIN_HEIGHT = 120;
     CodeWindow.MAX_URL_LENGTH = 2 * 1024 * 1024;
+    tslib_1.__decorate([
+        log_1.FuncRunningLog
+    ], CodeWindow.prototype, "restoreWindowState", null);
     tslib_1.__decorate([
         log_1.FuncRunningLog
     ], CodeWindow.prototype, "createBrowserWindow", null);

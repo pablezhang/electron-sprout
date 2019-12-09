@@ -23,6 +23,7 @@ define(["require", "exports", "sprout/base/common/event"], function (require, ex
             switch (command) {
                 case 'reloadWindow': return this.service.reloadWindow(arg[0], arg[1]);
             }
+            throw new Error(`Event not found: ${command}`);
         }
     }
     exports.WindowsChannel = WindowsChannel;

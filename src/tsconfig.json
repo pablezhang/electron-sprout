@@ -2,16 +2,24 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-    "sprout/*": ["./src/sprout/*"]
+    "sprout/*": ["./sprout/*"]
     }, // 定义全局路径快捷方式
      "module": "amd",
      "esModuleInterop": false,
      "preserveConstEnums": true,
-		 "moduleResolution": "node",
+     "sourceMap": false,
+     "moduleResolution": "node",
+    //  "strictNullChecks": true,
      "importHelpers": true,
      "allowSyntheticDefaultImports": true,
-     "noImplicitAny": true,
+     "noImplicitAny": false,
      "experimentalDecorators": true, // 允许使用es6装饰器
+     "forceConsistentCasingInFileNames": true,
+
+     "noImplicitReturns": true,
+     "noImplicitThis": true,
+     "alwaysStrict": true,
+     "strictBindCallApply": true,
      "jsx": "react",
      "target": "es2017",
      "lib": [
@@ -20,5 +28,9 @@
         "es2015.iterable",
         "es2017.object"
      ]
-  }
+  },
+  "include": [
+    "./typings",
+    "./sprout"
+   ]
 }

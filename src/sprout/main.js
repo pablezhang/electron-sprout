@@ -1,4 +1,4 @@
-define(["require", "exports", "tslib", "sprout/instantiation/serviceCollection", "sprout/instantiation/instantiationService", "sprout/base/parts/ipc/node/ipc.net", "electron", "sprout/base/common/platform", "path", "sprout/constants/processEnv", "sprout/application", "sprout/base/utils/log"], function (require, exports, tslib_1, serviceCollection_1, instantiationService_1, ipc_net_1, electron_1, platform, path_1, processEnv_1, application_1, log_1) {
+define(["require", "exports", "tslib", "sprout/instantiation/serviceCollection", "sprout/instantiation/instantiationService", "sprout/base/parts/ipc/node/ipc.net", "electron", "sprout/base/common/platform", "path", "sprout/constants/processEnv", "sprout/application", "sprout/base/utils/log", "sprout/instantiation/descriptors", "sprout/services/lifecycle/electron-main/lifecycleService", "sprout/services/lifecycle/common/lifecycle"], function (require, exports, tslib_1, serviceCollection_1, instantiationService_1, ipc_net_1, electron_1, platform, path, processEnv_1, application_1, log_1, descriptors_1, lifecycleService_1, lifecycle_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class ExpectedError extends Error {
@@ -9,7 +9,12 @@ define(["require", "exports", "tslib", "sprout/instantiation/serviceCollection",
     }
     class CodeMain {
         main() {
-            this.startup();
+            try {
+                this.startup();
+            }
+            catch (error) {
+                log_1.info('main-start-error:', error);
+            }
         }
         async startup() {
             const [instantiationService, instanceEnvironment] = this.createServices();
@@ -17,10 +22,12 @@ define(["require", "exports", "tslib", "sprout/instantiation/serviceCollection",
                 await instantiationService.invokeFunction(async (accessor) => {
                     log_1.info('run doStartup');
                     const mainIpcServer = await this.doStartup();
-                    return instantiationService.createInstance(application_1.Application, mainIpcServer, instanceEnvironment);
+                    log_1.info('server start success');
+                    return instantiationService.createInstance(application_1.Application, mainIpcServer, instanceEnvironment).startup();
                 });
             }
             catch (error) {
+                log_1.info('startup:', error);
                 instantiationService.invokeFunction(this.quit, error);
             }
         }
@@ -29,11 +36,13 @@ define(["require", "exports", "tslib", "sprout/instantiation/serviceCollection",
             try {
                 // 创建成功，则表示第一次创建
                 //TODO: pikun mainIPCHandle put into environment service
-                const mainIPCHandle = path_1.default.join(electron_1.app.getPath('userdata'), 'version_mian.sock');
+                const mainIPCHandle = path.join(electron_1.app.getPath('userData'), 'version_mian13.sock');
+                console.log('mainIPCHandle:', mainIPCHandle);
                 server = await ipc_net_1.serve(mainIPCHandle);
             }
             catch (error) {
                 //TODO: @pikun handle error
+                log_1.info('doStartup:', error);
             }
             if (platform.isMacintosh) {
                 electron_1.app.dock.show();
@@ -44,6 +53,7 @@ define(["require", "exports", "tslib", "sprout/instantiation/serviceCollection",
         createServices() {
             const services = new serviceCollection_1.ServiceCollection();
             const instanceEnvironment = this.patchEnvironment();
+            services.set(lifecycle_1.ILifecycleService, new descriptors_1.SyncDescriptor(lifecycleService_1.LifecycleService));
             return [new instantiationService_1.InstantiationService(services, true), instanceEnvironment];
         }
         patchEnvironment() {

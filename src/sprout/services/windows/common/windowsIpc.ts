@@ -1,7 +1,7 @@
 /*
  * @Author: pikun
  * @Date: 2019-12-08 11:16:27
- * @LastEditTime: 2019-12-08 16:02:49
+ * @LastEditTime: 2019-12-08 16:35:28
  * @Description:
  */
 import { Event } from 'sprout/base/common/event';
@@ -38,5 +38,6 @@ export class WindowsChannel implements IServerChannel {
 		switch (command) {
 			case 'reloadWindow': return this.service.reloadWindow(arg[0], arg[1]);
 		}
+		throw new Error(`Event not found: ${command}`);
 	}
 }
