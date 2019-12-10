@@ -1,3 +1,4 @@
 node_modules
 src/sprout/**/*.js
 laboratory
+.DS_Store
