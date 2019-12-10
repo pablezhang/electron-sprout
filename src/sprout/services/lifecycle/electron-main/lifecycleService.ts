@@ -10,7 +10,7 @@ import { createDecorator } from 'sprout/instantiation/instantiation';
 import { ICodeWindow } from 'sprout/services/windows/electron-main/windows';
 import { Disposable } from 'sprout/base/common/lifecycle';
 import { Barrier } from 'sprout/base/common/async';
-import { isMacintosh } from 'sprout/base/common/platform';
+import { isMacintosh, isWindows } from 'sprout/base/common/platform';
 import { handleVetos } from 'sprout/services/lifecycle/common/lifecycle';
 import { FuncRunningLog, runError } from 'sprout/base/utils/log';
 import { IPC_EVENT } from 'sprout/constants/ipcEvent';
@@ -383,18 +383,80 @@ export class LifecycleService extends Disposable implements ILifecycleService {
 	}
 
 
+	/**
+	 *
+	 * @param options
+	 * 处理重启的process.env
+	 */
+	private handleRelaunchArgs(options?: { addArgs?: string[]; removeArgs?: string[]; }): string[] {
+		const args = process.argv.slice(1);
+		if (options && options.addArgs) {
+			args.push(...options.addArgs);
+		}
+		if (options && options.removeArgs) {
+			for (const a of options.removeArgs) {
+				const idx = args.indexOf(a);
+				if (idx >= 0) {
+					args.splice(idx, 1);
+				}
+			}
+		}
+		return args;
+	}
 
+	/**
+	 * 重启退出时的监听
+	 */
+	private relaunchQuitListener(quitVetoed: boolean, args: string[]) {
+		if (!quitVetoed) {
+			// Windows: we are about to restart and as such we need to restore the original
+			// current working directory we had on startup to get the exact same startup
+			// behaviour. As such, we briefly change back to the VSCODE_CWD and then when
+			// Code starts it will set it back to the installation directory again.
+			try {
+				if (isWindows) {
+					const vscodeCwd = process.env['VSCODE_CWD'];
+					if (vscodeCwd) {
+						process.chdir(vscodeCwd);
+					}
+				}
+			} catch (err) {
+				runError(err);
+			}
+			// relaunch after we are sure there is no veto
+			app.relaunch({ args });
+		}
+	}
 
 	relaunch(options?: { addArgs?: string[]; removeArgs?: string[]; }): void {
-		throw new Error('Method not implemented.');
+		const args = this.handleRelaunchArgs();
+		let quitVetoed = false;
+		app.once('quit', () => this.relaunchQuitListener(quitVetoed, args));
+		this.quit().then(veto => quitVetoed == veto);
 	}
+
 	quit(fromUpdate?: boolean): Promise<boolean> {
 		if (this.pendingQuitPromise) { return this.pendingQuitPromise; }
 
+		this.pendingQuitPromise = new Promise(resolve => {
+			//TODO: @pikun doesn't understand
+			console.log('quit before promise');
+			this.pendingQuitPromiseResolve = resolve;
+			// Calling app.quit() will trigger the close handlers of each opened window
+			// and only if no window vetoed the shutdown, we will get the will-quit event
+			console.log('quit after promise');
+			app.quit();
+		});
+
+		return this.pendingQuitPromise;
+
 	}
+
+
 	kill(code?: number): void {
-		throw new Error('Method not implemented.');
+		app.exit(code);
 	}
+
 	async when(phase: LifecycleMainPhase): Promise<void> {
 		if (phase <= this._phase) {
 			return;

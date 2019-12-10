@@ -39,7 +39,7 @@ class MainEntrance {
     Promise.all([nodeCachedDataDir.ensureExists()]).then(([cachedDataDir]) => {
       process.env[processEnv.SPROUT_NODE_CACHED_DATA_DIR] = cachedDataDir || '';
       log.info('ready to start');
-      require('./bootstrap-amd').load('sprout/event-test', () => {
+      require('./bootstrap-amd').load('sprout/main', () => {
         log.info('start done');
       });
     })

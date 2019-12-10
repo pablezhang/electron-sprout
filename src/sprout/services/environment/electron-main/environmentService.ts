@@ -7,10 +7,10 @@
 import { IEnvironmentService, ParsedArgs } from 'sprout/services/environment/common/environment';
 import { memoize } from 'sprout/base/common/decorator';
 import * as crypto from 'crypto';
-import path from 'path';
+import * as path from 'path';
 import { isWindows } from 'sprout/base/common/platform';
 import { app } from 'electron';
-import upath from 'upath';
+import * as upath from 'upath';
 
 export const IPC_HANDLE_TYPE = {
 	MAIN: 'main',

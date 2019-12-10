@@ -10,6 +10,7 @@ export class SyncDescriptor<T> {
     supportsDelayedINstantiation: boolean = false
   ) {
     this.ctor = ctor;
+    console.log('this.ctor::', this.ctor);
     this.staticArguments = staticArguments;
     this.supportsDelayedInstantiation = supportsDelayedINstantiation;
   }
