@@ -27,23 +27,23 @@ git: git@github.com:spcBackToLife/electron-sprout.git
 
 ## 目录结构
 
-			-- .vscode // vscode编辑器配置文件，用于帮助隐藏一些不需要看的文件，比如编译后的ts等。
+	-- .vscode // vscode编辑器配置文件，用于帮助隐藏一些不需要看的文件，比如编译后的ts等。
 
-			-- native-modules // 独立的npm包空间，存放需要`node-gyp`编译的依赖。
+	-- native-modules // 独立的npm包空间，存放需要`node-gyp`编译的依赖。
 
-			-- configs // webpack打包配置文件、应用构建配置文件
+	-- configs // webpack打包配置文件、应用构建配置文件
 
-			-- src // 主目录
+	-- src // 主目录
 
-			-- scripts // 放置一些脚本文件
+	-- scripts // 放置一些脚本文件
 
-			-- typings
+	-- typings
 
-			-- sprout // 核心代码
+	-- sprout // 核心代码
 
-			-- resources // 静态资源
+	-- resources // 静态资源
 
-			-- test-grammer // 快速测试语法和api的文件夹
+	-- test-grammer // 快速测试语法和api的文件夹
 
 ## sprout 核心目录结构
 
