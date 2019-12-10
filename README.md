@@ -5,7 +5,7 @@
  * @Description:
  -->
 ## ELECTRON-SPROUT
-`ELECTRON-SPROUT` 是我在博客中从0到1搭建的`Electron`框架，最终会搭建成一个完善的`Electron`企业级框架供大家使用。初衷是让大家能够上手即用，不用去关心基础的业务轮子。比如文件处理服务、消息通知服务、日志服务、默认弹窗很丑等问题。
+`ELECTRON-SPROUT` 是我在博客中从0到1搭建的`Electron`框架，最终会搭建成一个完善的`Electron`企业级框架供大家使用。初衷是让大家能够上手即用，不用去关心基础的业务轮子。比如文件处理服务、消息通知服务、日志服务、高效的升级机制、等问题。
 
 包含如下部分：
 - `Electron + React + Mobx + Typescript + Webpack` 基础框架
@@ -19,6 +19,7 @@
 - 常见企业化问题解决：如何解决360拦截问题、日志问题等
 
 博客地址：https://spcbacktolife.github.io
+
 git: git@github.com:spcBackToLife/electron-sprout.git
 
 
@@ -26,32 +27,55 @@ git: git@github.com:spcBackToLife/electron-sprout.git
 
 ## 目录结构
 	-- .vscode // vscode编辑器配置文件，用于帮助隐藏一些不需要看的文件，比如编译后的ts等。
+
   -- native-modules // 独立的npm包空间，存放需要`node-gyp`编译的依赖。
+
 	-- configs // webpack打包配置文件、应用构建配置文件
+
 	-- src // 主目录
+
 	-- scripts // 放置一些脚本文件
+
 	-- typings
+
 	-- sprout // 核心代码
+
 	-- resources // 静态资源
+
 	-- test-grammer // 快速测试语法和api的文件夹
 
 ## sprout 核心目录结构
+
 -- sprout
+
   -- windows // 管理多窗口的
+
 	  -- mainWindow
+
 			-- electron-main // 主进程使用
+
 			-- electron-renderer // 渲染进程使用
+
 			-- electron-bridge // 渲染进程与主进程通信处
+
 			-- common // 主进程渲染进程公用
+
 			-- index.html
+
 		-- otherWindow
+
 			-- electron-main // 主进程使用
+
 			-- electron-renderer // 渲染进程使用
 
 			-- electron-main // 主进程使用
+
 			-- electron-renderer // 渲染进程使用
+
 			-- electron-bridge // 渲染进程与主进程通信处
+
 			-- common // 主进程渲染进程
+
 	-- main.ts // 主入口
 
 本框架运行环境分为：`electron-main`, `electron-render`
