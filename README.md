@@ -26,57 +26,58 @@ git: git@github.com:spcBackToLife/electron-sprout.git
 # 本项目建议使用`vscode`编辑器
 
 ## 目录结构
-	-- .vscode // vscode编辑器配置文件，用于帮助隐藏一些不需要看的文件，比如编译后的ts等。
 
-  -- native-modules // 独立的npm包空间，存放需要`node-gyp`编译的依赖。
+			-- .vscode // vscode编辑器配置文件，用于帮助隐藏一些不需要看的文件，比如编译后的ts等。
 
-	-- configs // webpack打包配置文件、应用构建配置文件
+			-- native-modules // 独立的npm包空间，存放需要`node-gyp`编译的依赖。
 
-	-- src // 主目录
+			-- configs // webpack打包配置文件、应用构建配置文件
 
-	-- scripts // 放置一些脚本文件
+			-- src // 主目录
 
-	-- typings
+			-- scripts // 放置一些脚本文件
 
-	-- sprout // 核心代码
+			-- typings
 
-	-- resources // 静态资源
+			-- sprout // 核心代码
 
-	-- test-grammer // 快速测试语法和api的文件夹
+			-- resources // 静态资源
+
+			-- test-grammer // 快速测试语法和api的文件夹
 
 ## sprout 核心目录结构
 
--- sprout
+	-- sprout
 
-  -- windows // 管理多窗口的
+		-- windows // 管理多窗口的
 
-	  -- mainWindow
+			-- mainWindow
 
-			-- electron-main // 主进程使用
+				-- electron-main // 主进程使用
 
-			-- electron-renderer // 渲染进程使用
+				-- electron-renderer // 渲染进程使用
 
-			-- electron-bridge // 渲染进程与主进程通信处
+				-- electron-bridge // 渲染进程与主进程通信处
 
-			-- common // 主进程渲染进程公用
+				-- common // 主进程渲染进程公用
 
-			-- index.html
+				-- index.html
 
-		-- otherWindow
+			-- otherWindow
 
-			-- electron-main // 主进程使用
+				-- electron-main // 主进程使用
 
-			-- electron-renderer // 渲染进程使用
+				-- electron-renderer // 渲染进程使用
 
-			-- electron-main // 主进程使用
+				-- electron-main // 主进程使用
 
-			-- electron-renderer // 渲染进程使用
+				-- electron-renderer // 渲染进程使用
 
-			-- electron-bridge // 渲染进程与主进程通信处
+				-- electron-bridge // 渲染进程与主进程通信处
 
-			-- common // 主进程渲染进程
+				-- common // 主进程渲染进程
 
-	-- main.ts // 主入口
+		-- main.ts // 主入口
 
 本框架运行环境分为：`electron-main`, `electron-render`
 
