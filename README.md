@@ -5,19 +5,18 @@
  * @Description:
  -->
 ## ELECTRON-SPROUT
-`ELECTRON-SPROUT` 是我在博客中从0到1搭建的`Electron`框架，最终会搭建成一个完善的`Electron`企业级框架供大家使用。包含如下部分：
+`ELECTRON-SPROUT` 是我在博客中从0到1搭建的`Electron`框架，最终会搭建成一个完善的`Electron`企业级框架供大家使用。初衷是让大家能够上手即用，不用去关心基础的业务轮子。比如文件处理服务、消息通知服务、日志服务、默认弹窗很丑等问题。
+
+包含如下部分：
 - `Electron + React + Mobx + Typescript + Webpack` 基础框架
-- `Electron` 多窗口设计
-- `Electron` web和node依赖分离
-- `Electron` 集成flash、ffmpeg
+- `Electron` ioc设计模式
+- `Electron` 三方环境集成方案，如：flash、python环境
 - `Electron` 打包（win32\win64\mac）、发布（包含如何签名、如何设置证书、windows\mac）
-- `Electron` 企业级升级方案
-- `Electron` 国际化
-- `Electron` 主题
-- `Electron` windows | mac 分支分离， 可切不同版本electron
-- `Electron` ts
+- `Electron` 模块化升级方案，做到像网页发布一样自由
+- `Electron` 基础业务功能扩展性封装：主题，弹窗（文件弹窗、提示弹窗等）
+- `Electron` windows | mac 分支分离管理， 可切不同版本electron，做适合的兼容性
 - 服务的设计（main\render\通信）
-- 如何解决360拦截问题
+- 常见企业化问题解决：如何解决360拦截问题、日志问题等
 
 博客地址：https://spcbacktolife.github.io
 git: git@github.com:spcBackToLife/electron-sprout.git
@@ -57,14 +56,4 @@ git: git@github.com:spcBackToLife/electron-sprout.git
 
 本框架运行环境分为：`electron-main`, `electron-render`
 
-upath.normalizeSafe: 处理windows上路径问题，因此对于所有路径，均用此处理较好。
-
-Property 'toUrl' does not exist on type 'NodeRequire'  => yarn add @types/webpack-env -D
-
-
-'const' enums can only be used in property or index access expressions or the right hand side of an import declaration or export assignment or type query.
-
-
-=> "preserveConstEnums": true,
-
-Argument of type 'LifecycleMainPhase.Ready' is not assignable to parameter of type 'LifecyclePhase'.
+未完待续....
