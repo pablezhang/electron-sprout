@@ -85,7 +85,7 @@ class CodeMain {
 		const environmentService = new EnvironmentService(process.argv, process.execPath);
 		const instanceEnvironment = this.patchEnvironment(environmentService);
 		services.set(IEnvironmentService, environmentService);
-
+		console.log('LifecycleService:', LifecycleService);
 		services.set(ILifecycleService, new SyncDescriptor(LifecycleService));
 		return [new InstantiationService(services, true), instanceEnvironment];
 	}

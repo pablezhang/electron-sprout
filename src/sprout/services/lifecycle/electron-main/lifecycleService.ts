@@ -169,7 +169,6 @@ export class LifecycleService extends Disposable implements ILifecycleService {
 
 	constructor() {
 		super();
-
 		this.when(LifecycleMainPhase.Ready).then(() => this.registerListeners());
 	}
 
@@ -221,7 +220,6 @@ export class LifecycleService extends Disposable implements ILifecycleService {
 		return this.pendingWillShutdownPromise;
 	}
 
-	@FuncRunningLog
 	set phase(value: LifecycleMainPhase) {
 		if (value < this.phase) {
 			throw new Error('Lifecycle cannot go backwards');
