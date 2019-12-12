@@ -3,12 +3,7 @@
   "files.trimTrailingWhitespace": true,
   "files.exclude": {
       ".git": true,
-      ".build": true,
-      "build": true,
       "**/node_modules": true,
-      "build/**/*.js": {
-          "when": "$(basename).ts"
-      },
       "src/**/*.js": {
         "when": "$(basename).ts"
       },
@@ -22,14 +17,6 @@
   "search.exclude": {
       "**/node_modules": true,
       "**/bower_components": true,
-      ".build/**": true,
-      "out/**": true,
-      "out-build/**": true,
-      "out-vscode/**": true,
-      "i18n/**": true,
-      "extensions/**/out/**": true,
-      "test/smoke/out/**": true,
-      "src/vs/base/test/node/uri.test.data.txt": true
   },
   "lcov.path": [
       "./.build/coverage/lcov.info", "./.build/coverage-single/lcov.info"

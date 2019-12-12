@@ -17,12 +17,15 @@ import { IWindowsService } from 'sprout/services/windows/common/windows';
 import { WindowsChannel } from 'sprout/services/windows/common/windowsIpc';
 import { FuncRunningLog } from 'sprout/base/utils/log';
 import { WindowsService } from 'sprout/services/windows/electron-main/windowsService';
+import { ILifecycleService } from 'sprout/services/lifecycle/common/lifecycle';
+import { LifecycleMainPhase } from 'sprout/services/lifecycle/electron-main/lifecycleService';
 export class Application extends Disposable {
 	private windowsMainService: IWindowsMainService | undefined;
 	constructor(
 		private readonly mainIpcServer: Server,
 		private readonly userEnv: IProcessEnvironment,
-		@IInstantiationService private readonly instantiationService: IInstantiationService
+		@IInstantiationService private readonly instantiationService: IInstantiationService,
+		@ILifecycleService private lifecycleService: ILifecycleService
 	) {
 		super();
 		this.registerListeners();
@@ -32,7 +35,7 @@ export class Application extends Disposable {
 		//TODO: @pikun
 	}
 
-	@FuncRunningLog
+	@FuncRunningLog()
 	async startup(): Promise<void> {
 		// Create Electron IPC Servers
 		const electronIpcServer = new ElectronIPCServer();
@@ -40,21 +43,24 @@ export class Application extends Disposable {
 		const windows = appInstantiationService.invokeFunction(accessor => this.openFirstWindow(accessor, electronIpcServer));
 	}
 
-	@FuncRunningLog
+	@FuncRunningLog()
 	private async createServices(): Promise<IInstantiationService> {
 		const services = new ServiceCollection();
 		//TODO: @pikun
-		const machineId = '12';
-		services.set(IWindowsMainService, new SyncDescriptor(WindowsManager, [machineId]));
+		services.set(IWindowsMainService, new SyncDescriptor(WindowsManager));
 		services.set(IWindowsService, new SyncDescriptor(WindowsService))
 		return this.instantiationService.createChild(services);
 	}
 
-	@FuncRunningLog
+	@FuncRunningLog()
 	private openFirstWindow(accessor: ServicesAccessor, electronIpcServer: ElectronIPCServer): ICodeWindow[] {
 		const windowsService = accessor.get(IWindowsService);
 		const windowsChannel = new WindowsChannel(windowsService);
 		electronIpcServer.registerChannel('windows', windowsChannel);
+
+		// Signal phase: ready (services set)
+		// @ts-ignore
+		this.lifecycleService.phase = LifecycleMainPhase.Ready;
 
 		const windowsMainService = this.windowsMainService = accessor.get(IWindowsMainService);
 		return windowsMainService.open({});

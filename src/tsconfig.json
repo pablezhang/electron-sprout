@@ -24,8 +24,8 @@
      "target": "es2017",
      "lib": [
         "dom",
-        "es5",
-        "es2015.iterable",
+        "ES2019.Symbol",
+        "ES2020.Symbol.WellKnown",
         "es2017.object"
      ]
   },

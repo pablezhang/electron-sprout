@@ -12,7 +12,7 @@ import { Disposable } from 'sprout/base/common/lifecycle';
 import { Barrier } from 'sprout/base/common/async';
 import { isMacintosh, isWindows } from 'sprout/base/common/platform';
 import { handleVetos } from 'sprout/services/lifecycle/common/lifecycle';
-import { FuncRunningLog, runError } from 'sprout/base/utils/log';
+import { FuncRunningLog, runError, info } from 'sprout/base/utils/log';
 import { IPC_EVENT } from 'sprout/constants/ipcEvent';
 export const ILifecycleService = createDecorator<ILifecycleService>('lifecycleService');
 export const enum UnloadReason {
@@ -169,24 +169,26 @@ export class LifecycleService extends Disposable implements ILifecycleService {
 
 	constructor() {
 		super();
+		info('lifecycle isntances');
 		this.when(LifecycleMainPhase.Ready).then(() => this.registerListeners());
 	}
 
+	@FuncRunningLog()
 	private registerListeners(): void {
 
-		app.addListener('before-quit', () => this.beforeQuitListener);
+		app.addListener('before-quit', () => this.beforeQuitListener());
 
-		app.addListener('window-all-closed', this.windowAllClosedListener);
+		app.addListener('window-all-closed', () => this.windowAllClosedListener());
 
-		app.once('will-quit', this.willQuitListener);
+		app.once('will-quit', (e) => this.willQuitListener(e));
 	}
 
-	@FuncRunningLog
+	@FuncRunningLog()
 	private windowAllClosedListener() {
 		app.quit();
 	}
 
-	@FuncRunningLog
+	@FuncRunningLog()
 	private beforeQuitListener() {
 		if (this._quitRequested) {
 			return;
@@ -202,7 +204,7 @@ export class LifecycleService extends Disposable implements ILifecycleService {
 		}
 	}
 
-	@FuncRunningLog
+	@FuncRunningLog()
 	private beginOnWillShutdown(): Promise<void> {
 		if(this.pendingWillShutdownPromise) {
 			return this.pendingWillShutdownPromise;
@@ -238,7 +240,7 @@ export class LifecycleService extends Disposable implements ILifecycleService {
 		}
 	}
 
-
+	@FuncRunningLog()
 	private willQuitListener(e: any) {
 		e.preventDefault();
 		const shutdownPromise = this.beginOnWillShutdown();

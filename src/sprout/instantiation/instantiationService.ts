@@ -98,8 +98,6 @@ export class InstantiationService implements IInstantiationService {
 				console.log('cycleCount > 100');
 				throw new CyclicDependencyError(graph);
 			}
-      console.log('item:', item.id.toString());
-      console.log('item:', item.desc);
       for(let dependency of serviceIdManager.getServiceDependencies(item.desc.ctor)) {
         let instanceOrDesc = this._getServiceInstanceOrDescriptor(dependency.id);
 

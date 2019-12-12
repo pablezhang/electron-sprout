@@ -21,7 +21,7 @@ module.exports = merge.smart(baseConfig, {
     renderer: [
       require.resolve('../../src/sprout/windows/main-window/electron-render/index.tsx'),
       // 'react-hot-loader/patch',
-      `webpack-dev-server/client?http://localhost:${port}/`,
+      `webpack-dev-server/client?http://localhost:${port}/dist`,
       'webpack/hot/only-dev-server',
     ],
   },

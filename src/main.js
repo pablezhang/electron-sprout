@@ -42,6 +42,9 @@ class MainEntrance {
       require('./bootstrap-amd').load('sprout/main', () => {
         log.info('start done');
       });
+      // require('./bootstrap-amd').load('sprout/laboratory/test-server', () => {
+      //   log.info('start done');
+      // });
     })
   }
 

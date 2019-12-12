@@ -105,13 +105,13 @@ export class CodeWindow extends Disposable implements ICodeWindow {
 
 	}
 
-	@FuncRunningLog
+	@FuncRunningLog()
 	private restoreWindowState(state?: IWindowState): IWindowState {
 		// TODO: @pikun
 		return defaultWindowState();
 	}
 
-	@FuncRunningLog
+	@FuncRunningLog()
 	private createBrowserWindow(config: IWindowCreationOptions): void {
 		this.windowState = this.restoreWindowState(config.state);
 
@@ -136,7 +136,9 @@ export class CodeWindow extends Disposable implements ICodeWindow {
 		};
 
 		this._win = new BrowserWindow(options);
-		this._win.loadURL('https://www.baidu.com');
+		console.log('__dirname:', __dirname);
+		this._win.loadURL(`file://${__dirname}/main-window/index.html`);
+		this._win.webContents.openDevTools();
 		this._id = this._win.id;
 		this._lastFocusTime = Date.now();
 	}

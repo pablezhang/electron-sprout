@@ -55,7 +55,6 @@ export class WindowsManager extends Disposable implements IWindowsMainService {
 	readonly onWindowLoad: CommonEvent<number> = this._onWindowLoad.event;
 
 	constructor(
-		private readonly machineId: string,
 		@ILifecycleService private readonly lifecycleService: ILifecycleService,
 		@IInstantiationService private readonly instantiationService: IInstantiationService
 		) {
@@ -81,7 +80,7 @@ export class WindowsManager extends Disposable implements IWindowsMainService {
 		return Promise.resolve();
 	}
 
-	@FuncRunningLog
+	@FuncRunningLog()
 	open(openConfig: IOpenConfiguration): ICodeWindow[] {
 		const window = this.instantiationService.createInstance(CodeWindow, {});
 		WindowsManager.WINDOWS.push(window);
