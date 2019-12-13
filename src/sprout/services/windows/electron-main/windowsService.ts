@@ -29,6 +29,7 @@ export class WindowsService extends Disposable implements IWindowsService {
 		super();
 	}
 
+	@FuncRunningLog(true)
 	async reloadWindow(windowId: number, args: ParsedArgs): Promise<void> {
 		// TODO: @pikun
 		return Promise.resolve();

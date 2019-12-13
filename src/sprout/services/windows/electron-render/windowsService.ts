@@ -9,6 +9,7 @@ import { IWindowsService, MessageBoxOptions, IMessageBoxResult, SaveDialogOption
 import { IChannel } from 'sprout/base/parts/ipc/common/ipc';
 import { IMainProcessService } from 'sprout/services/ipc/electron-render/mainProcessService';
 import { ParsedArgs } from 'sprout/services/environment/common/environment';
+import { FuncRunningLog } from 'sprout/base/utils/log';
 
 export class WindowsService implements IWindowsService {
 	_serviceBrand: undefined;
@@ -25,6 +26,7 @@ export class WindowsService implements IWindowsService {
 		this.channel = mainProcessService.getChannel('windows');
 	}
 
+	@FuncRunningLog()
 	reloadWindow(windowId: number, args?: ParsedArgs): Promise<void> {
 		return this.channel.call('reloadWindow', [windowId, args]);
 	}

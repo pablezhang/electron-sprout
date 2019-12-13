@@ -165,7 +165,6 @@ export const enum ReadyState {
 
 
 export interface IWindowConfiguration extends ParsedArgs {
-	machineId: string;
 	windowId: number;
 	mainPid: number;
 

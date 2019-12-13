@@ -138,6 +138,7 @@ export class CodeWindow extends Disposable implements ICodeWindow {
 		this._win = new BrowserWindow(options);
 		console.log('__dirname:', __dirname);
 		this._win.loadURL(`file://${__dirname}/main-window/index.html`);
+		// this._win.loadURL('https://www.baidu.com');
 		this._win.webContents.openDevTools();
 		this._id = this._win.id;
 		this._lastFocusTime = Date.now();

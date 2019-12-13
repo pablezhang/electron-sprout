@@ -13,6 +13,7 @@ const baseConfig = require('./webpack.config.base');
 
 const port = process.env.PORT || 1212;
 const publicPath = `http://localhost:${port}/dist`;
+console.log('===>', path.join(__dirname, '../../src/sprout'))
 module.exports = merge.smart(baseConfig, {
   devtool: 'inline-source-map',
   mode: 'development',
@@ -24,6 +25,11 @@ module.exports = merge.smart(baseConfig, {
       `webpack-dev-server/client?http://localhost:${port}/dist`,
       'webpack/hot/only-dev-server',
     ],
+  },
+  resolve: {
+    alias: {
+      'sprout': path.join(__dirname, '../../src/sprout')
+    }
   },
   output: {
     publicPath: `http://localhost:${port}/dist`,
