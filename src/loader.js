@@ -1315,6 +1315,7 @@ var AMDLoader;
         ModuleManager.prototype.synchronousRequire = function (_strModuleId, moduleIdResolver) {
             if (moduleIdResolver === void 0) { moduleIdResolver = new ModuleIdResolver(_strModuleId); }
             var dependency = this._normalizeDependency(_strModuleId, moduleIdResolver);
+            console.log('dependency:', dependency, _strModuleId, this._modules2);
             var m = this._modules2[dependency.id];
             if (!m) {
                 throw new Error('Check dependency list! Synchronous require cannot resolve module \'' + _strModuleId + '\'. This is the first mention of this module!');

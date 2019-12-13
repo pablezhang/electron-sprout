@@ -1,12 +1,16 @@
-import React, { Component } from 'react';
+import * as React from 'react';
+import { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import { WindowsService } from 'sprout/services/windows/electron-render/windowsService';
-import { injectInstance } from 'sprout/windows/main-window';
+import { autowired } from 'sprout/windows/main-window/index';
+
+console.log('injectInstance:', autowired);
+console.log('WindowsService:', WindowsService);
 @inject('demoStore')
 @observer
 export class Demo extends Component<any, any> {
 
-  @injectInstance(WindowsService)
+  @autowired(WindowsService)
   private windowService: WindowsService;
 
   constructor(props) {

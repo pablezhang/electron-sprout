@@ -26,11 +26,6 @@ module.exports = merge.smart(baseConfig, {
       'webpack/hot/only-dev-server',
     ],
   },
-  resolve: {
-    alias: {
-      'sprout': path.join(__dirname, '../../src/sprout')
-    }
-  },
   output: {
     publicPath: `http://localhost:${port}/dist`,
     filename: '[name].dev.js',

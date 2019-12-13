@@ -2,7 +2,6 @@ import { observable, action, configure, computed, autorun } from 'mobx';
 
 // 做一些全局配置，比如： enforceActions，表示此store种更改状态必须使用action
 configure({
-  enforceActions: "always",
   computedConfigurable: false,
 });
 

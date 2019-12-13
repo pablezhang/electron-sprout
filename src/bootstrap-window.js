@@ -7,6 +7,7 @@
 'use strict';
 
 const bootstrap = require('./bootstrap');
+const processEnv = require('./config').PROCESS_ENV;
 /**
  * @param {object} destination
  * @param {object} source
@@ -25,7 +26,7 @@ exports.assign = function assign(destination, source) {
 exports.load = function (modulePaths, resultCallback, options) {
 
 	const path = require('path');
-
+  console.log('pataaH:', path);
 	/**
 	 * // configuration: IWindowConfiguration
 	 * @type {{
@@ -37,19 +38,28 @@ exports.load = function (modulePaths, resultCallback, options) {
 	 * nodeCachedDataDir?: string
 	 * }} */
 	const configuration = {
-		zoomLevel: 1
+		zoomLevel: 1,
+		appRoot: __dirname,
+		nodeCachedDataDir: process.env[processEnv.SPROUT_NODE_CACHED_DATA_DIR]
 	};
 
-	// Correctly inherit the parent's environment
-	exports.assign(process.env, configuration.userEnv);
+	process.on('uncaughtException', function (error) {
+		console.log('eeeer:', error);
+	});
 
-	console.log('node_modules path:', path.join(configuration.appRoot, 'node_modules'));
+
+	// Correctly inherit the parent's environment
+	// exports.assign(process.env, configuration.userEnv);
+
+	console.log('node_modules path:', path.join(configuration.appRoot, '..', 'node_modules'));
 
 	// Enable ASAR support
-	bootstrap.enableASARSupport(path.join(configuration.appRoot, 'node_modules'));
+	bootstrap.enableASARSupport(path.join(configuration.appRoot, '..', 'node_modules'));
 
 	// Load the loader
+	console.log('loaderjs:', path.join(__dirname, './loader.js'));
 	const amdLoader = require(path.join(__dirname, './loader.js'));
+	console.log('amdLoader:', amdLoader);
 	const amdRequire = amdLoader.require;
 	const amdDefine = amdLoader.require.define;
 	const nodeRequire = amdLoader.require.nodeRequire;
@@ -61,9 +71,17 @@ exports.load = function (modulePaths, resultCallback, options) {
 	amdDefine('fs', ['original-fs'], function (originalFS) { return originalFS; });
 
 	const loaderConfig = {
-		baseUrl: bootstrap.uriFromPath(configuration.appRoot) + '/out',
+		baseUrl: bootstrap.uriFromPath(configuration.appRoot),
 		nodeModules: [/*BUILD->INSERT_NODE_MODULES*/]
-  };
+	};
+
+	// cached data config
+	if (configuration.nodeCachedDataDir) {
+		loaderConfig.nodeCachedData = {
+			path: configuration.nodeCachedDataDir,
+			seed: modulePaths.join('')
+		};
+	}
 
 	if (options && typeof options.beforeLoaderConfig === 'function') {
 		options.beforeLoaderConfig(configuration, loaderConfig);
@@ -76,6 +94,7 @@ exports.load = function (modulePaths, resultCallback, options) {
 	}
 
 	amdRequire(modulePaths, result => {
+		console.log('result:', result);
 		try {
 			const callbackResult = resultCallback(result, configuration);
 			if (callbackResult && typeof callbackResult.then === 'function') {
@@ -88,7 +107,7 @@ exports.load = function (modulePaths, resultCallback, options) {
 		} catch (error) {
 			console.log(error);
 		}
-	});
+	}, (error) => console.log('amd-window load error:', error));
 };
 
 /**

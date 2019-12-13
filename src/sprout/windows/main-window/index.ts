@@ -5,6 +5,8 @@ import { IInstantiationService } from 'sprout/instantiation/instantiation';
 import { getSingletonServiceDescriptors } from 'sprout/instantiation/extensions';
 import { InstantiationService } from 'sprout/instantiation/instantiationService';
 import { LifecyclePhase, ILifecycleService } from 'sprout/services/lifecycle/common/lifecycle';
+import { FuncRunningLog } from 'sprout/base/utils/log';
+import { MainProcessService, IMainProcessService } from 'sprout/services/ipc/electron-render/mainProcessService';
 
 
 class MainWindowRender extends Disposable {
@@ -15,10 +17,9 @@ class MainWindowRender extends Disposable {
 		super();
 	}
 
+	@FuncRunningLog()
 	async open(): Promise<void> {
 		this._instantiationService = this.initServices();
-		// require('@babel/register')(require('sprout/windows/main-window/electron-render/babel-entry-config'));
-		// require('sprout/windows/main-window/electron-render');
 	}
 
 	get instantiationService(): IInstantiationService {
@@ -33,6 +34,11 @@ class MainWindowRender extends Disposable {
     for (let [id, descriptor] of contributedServices) {
       this.serviceCollection.set(id, descriptor);
 		}
+
+		// Main Process
+		const mainProcessService = this._register(new MainProcessService(1));
+		this.serviceCollection.set(IMainProcessService, mainProcessService);
+
 		const instantiationService = new InstantiationService(this.serviceCollection, true);
 		instantiationService.invokeFunction(accessor => {
 			const lifecycleService = accessor.get(ILifecycleService);
@@ -43,19 +49,18 @@ class MainWindowRender extends Disposable {
 	}
 }
 
+let mainWindowRender :MainWindowRender;
 
-let mainWindowRender: MainWindowRender;
-
-
-export function main(configuration: IWindowConfiguration, hide: boolean = false): Promise<void> {
-	if (!mainWindowRender) {
-		mainWindowRender = new MainWindowRender(configuration);
-	}
+export function main(configuration: IWindowConfiguration): Promise<void> {
+	mainWindowRender = new MainWindowRender(configuration);
+	console.log('mainWindowRender:', mainWindowRender);
 	return mainWindowRender.open();
 }
 
-export function injectInstance<T>(ctor: any) {
+export function autowired<T>(ctor: any) {
+	console.log('ctor:', mainWindowRender);
 	return function (target: any, propertyKey: string) {
+		console.log('ctor111:', mainWindowRender);
 		target[propertyKey] = mainWindowRender.instantiationService.createInstance(ctor);
 		return target[propertyKey];
 	}
