@@ -1,5 +1,8 @@
 node_modules
-src/sprout/**/*.js
+src/**/*.js
+!render.entry.dev.js
+!babel-entry-config.js
+!main.entry.dev.js
 !main-window.js
 laboratory
 .DS_Store

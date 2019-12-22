@@ -11,7 +11,7 @@
     "build": "concurrently \"yarn build-main\" \"yarn build-renderer\"",
     "build-main": "cross-env NODE_ENV=production webpack --config ./config/webpack/webpack.config.main.prod.babel.js --colors",
     "build-renderer": "cross-env NODE_ENV=production webpack --config ./config/webpack/webpack.config.renderer.prod.babel.js --colors",
-    "start-main-dev-normal": "cross-env HOT=1 NODE_ENV=development electron -r @babel/register ./src/entry.dev.js",
+    "start-main-dev-normal": "cross-env HOT=1 NODE_ENV=development electron -r @babel/register ./src/sprout/main.entry.dev.js",
     "start-main-dev-amd": "cross-env HOT=1 NODE_ENV=development electron ./src/main.js",
     "package-production-win": "rm -rf ./release && yarn build && electron-builder build --win --ia32 --config ./config/builder/win-builder.yml",
     "dev": "cross-env START_HOT=1 webpack-dev-server --config ./config/webpack/webpack.config.renderer.dev.babel.js"

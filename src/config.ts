@@ -1,4 +1,4 @@
-exports.PROCESS_ENV = {
+export const PROCESS_ENV = {
   SPROUT_CWD: 'SPROUT_CWD', // work directory
   SPROUT_DEV: 'SPROUT_DEV', //  dev environment
   SPROUT_NODE_CACHED_DATA_DIR: 'SPROUT_NODE_CACHED_DATA_DIR',

@@ -25,7 +25,7 @@ class ExpectedError extends Error {
 	readonly isExpected = true;
 }
 
-class CodeMain {
+export class CodeMain {
 
 	@FuncRunningLog()
 	main(): void {
@@ -143,8 +143,3 @@ class CodeMain {
 		//TODO: @pikun
 	}
 }
-
-
-// Main Startup
-const code = new CodeMain();
-code.main();

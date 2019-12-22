@@ -4,7 +4,7 @@
     "paths": {
       "sprout/*": ["./sprout/*"]
     }, // 定义全局路径快捷方式
-     "module": "amd",
+     "module": "CommonJS",
      "esModuleInterop": false,
      "preserveConstEnums": true,
      "sourceMap": false,
@@ -31,6 +31,6 @@
   },
   "include": [
     "./typings",
-    "./sprout"
+    "./"
    ]
 }

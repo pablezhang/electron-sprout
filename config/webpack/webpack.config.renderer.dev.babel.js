@@ -64,7 +64,7 @@ module.exports = merge.smart(baseConfig, {
     before() {
       if (process.env.START_HOT) {
         console.log('Starting Main Process...');
-        spawn('npm', ['run', 'start-main-dev-amd'], {
+        spawn('npm', ['run', 'start-main-dev-normal'], {
           shell: true,
           env: process.env,
           stdio: 'inherit',
