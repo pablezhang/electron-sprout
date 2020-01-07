@@ -1,5 +1,5 @@
 Arguments: 
-  /Users/kp/.nvm/versions/node/v10.15.0/bin/node /Users/kp/.nvm/versions/node/v10.15.0/bin/yarn add @types/node^9.15.0 -D
+  /Users/kp/.nvm/versions/node/v10.15.0/bin/node /Users/kp/.nvm/versions/node/v10.15.0/bin/yarn add @babel/plugin-babel-plugin-const-enum -D
 
 PATH: 
   /Users/kp/.nvm/versions/node/v10.15.0/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
@@ -14,7 +14,7 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: https://registry.npm.taobao.org/@types%2fnode%5E9.15.0: Not found
+  Error: https://registry.npm.taobao.org/@babel%2fplugin-babel-plugin-const-enum: Not found
       at Request.params.callback [as _callback] (/Users/kp/.nvm/versions/node/v10.15.0/lib/node_modules/yarn/lib/cli.js:66927:18)
       at Request.self.callback (/Users/kp/.nvm/versions/node/v10.15.0/lib/node_modules/yarn/lib/cli.js:140586:22)
       at Request.emit (events.js:182:13)
@@ -40,8 +40,7 @@ npm manifest:
       "build": "concurrently \"yarn build-main\" \"yarn build-renderer\"",
       "build-main": "cross-env NODE_ENV=production webpack --config ./config/webpack/webpack.config.main.prod.babel.js --colors",
       "build-renderer": "cross-env NODE_ENV=production webpack --config ./config/webpack/webpack.config.renderer.prod.babel.js --colors",
-      "start-main-dev-normal": "cross-env HOT=1 NODE_ENV=development electron -r @babel/register ./src/entry.dev.js",
-      "start-main-dev-amd": "cross-env HOT=1 NODE_ENV=development electron ./src/main.js",
+      "start-main-dev": "cross-env HOT=1 NODE_ENV=development electron ./src/main.js",
       "package-production-win": "rm -rf ./release && yarn build && electron-builder build --win --ia32 --config ./config/builder/win-builder.yml",
       "dev": "cross-env START_HOT=1 webpack-dev-server --config ./config/webpack/webpack.config.renderer.dev.babel.js"
     },
@@ -63,6 +62,7 @@ npm manifest:
       "awesome-typescript-loader": "^5.2.1",
       "babel-loader": "^8.0.6",
       "concurrently": "^5.0.0",
+      "core-js": "2.6.5",
       "cross-env": "^6.0.3",
       "electron": "6.0.9",
       "electron-builder": "^22.1.0",
@@ -77,8 +77,7 @@ npm manifest:
       "react-router-dom": "^5.1.2",
       "source-map-loader": "^0.2.4",
       "ts-node": "^8.4.1",
-      "typescript": "3.6.2",
-      "typescript-formatter": "^7.2.2",
+      "typescript": "3.6",
       "webpack": "^4.41.2",
       "webpack-bundle-analyzer": "^3.6.0",
       "webpack-cli": "^3.3.9",
@@ -86,6 +85,7 @@ npm manifest:
       "webpack-merge": "^4.2.2"
     },
     "dependencies": {
+      "@babel/plugin-transform-typescript": "^7.7.4",
       "electron-log": "^3.0.9",
       "gulp": "^4.0.2"
     }
@@ -1084,9 +1084,9 @@ Lockfile:
       "@types/react" "*"
   
   "@types/react@*":
-    version "16.9.15"
-    resolved "https://registry.npm.taobao.org/@types/react/download/@types/react-16.9.15.tgz#aeabb7a50f96c9e31a16079ada20ede9ed602977"
-    integrity sha1-rqu3pQ+WyeMaFgea2iDt6e1gKXc=
+    version "16.9.16"
+    resolved "https://registry.npm.taobao.org/@types/react/download/@types/react-16.9.16.tgz#4f12515707148b1f53a8eaa4341dae5dfefb066d"
+    integrity sha1-TxJRVwcUix9TqOqkNB2uXf77Bm0=
     dependencies:
       "@types/prop-types" "*"
       csstype "^2.2.0"
@@ -2409,15 +2409,10 @@ Lockfile:
     dependencies:
       delayed-stream "~1.0.0"
   
-  commander@^2.18.0, commander@^2.19.0, commander@^2.20.0:
+  commander@^2.18.0, commander@^2.20.0:
     version "2.20.3"
     resolved "https://registry.npm.taobao.org/commander/download/commander-2.20.3.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fcommander%2Fdownload%2Fcommander-2.20.3.tgz#fd485e84c03eb4881c20722ba48035e8531aeb33"
     integrity sha1-/UhehMA+tIgcIHIrpIA16FMa6zM=
-  
-  commandpost@^1.0.0:
-    version "1.4.0"
-    resolved "https://registry.npm.taobao.org/commandpost/download/commandpost-1.4.0.tgz#89218012089dfc9b67a337ba162f15c88e0f1048"
-    integrity sha1-iSGAEgid/Jtnoze6Fi8VyI4PEEg=
   
   commondir@^1.0.1:
     version "1.0.1"
@@ -2593,6 +2588,11 @@ Lockfile:
     dependencies:
       browserslist "^4.7.0"
       semver "^6.3.0"
+  
+  core-js@2.6.5:
+    version "2.6.5"
+    resolved "https://registry.npm.taobao.org/core-js/download/core-js-2.6.5.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fcore-js%2Fdownload%2Fcore-js-2.6.5.tgz#44bc8d249e7fb2ff5d00e0341a7ffb94fbf67895"
+    integrity sha1-RLyNJJ5/sv9dAOA0Gn/7lPv2eJU=
   
   core-util-is@1.0.2, core-util-is@~1.0.0:
     version "1.0.2"
@@ -3168,16 +3168,6 @@ Lockfile:
     dependencies:
       jsbn "~0.1.0"
       safer-buffer "^2.1.0"
-  
-  editorconfig@^0.15.0:
-    version "0.15.3"
-    resolved "https://registry.npm.taobao.org/editorconfig/download/editorconfig-0.15.3.tgz#bef84c4e75fb8dcb0ce5cee8efd51c15999befc5"
-    integrity sha1-vvhMTnX7jcsM5c7o79UcFZmb78U=
-    dependencies:
-      commander "^2.19.0"
-      lru-cache "^4.1.5"
-      semver "^5.6.0"
-      sigmund "^1.0.1"
   
   ee-first@1.1.1:
     version "1.1.1"
@@ -5308,7 +5298,7 @@ Lockfile:
     resolved "https://registry.npm.taobao.org/lowercase-keys/download/lowercase-keys-2.0.0.tgz#2603e78b7b4b0006cbca2fbcc8a3202558ac9479"
     integrity sha1-JgPni3tLAAbLyi+8yKMgJVislHk=
   
-  lru-cache@^4.0.1, lru-cache@^4.1.5:
+  lru-cache@^4.0.1:
     version "4.1.5"
     resolved "https://registry.npm.taobao.org/lru-cache/download/lru-cache-4.1.5.tgz#8bbe50ea85bed59bc9e33dcab8235ee9bcf443cd"
     integrity sha1-i75Q6oW+1ZvJ4z3KuCNe6bz0Q80=
@@ -7594,11 +7584,6 @@ Lockfile:
     resolved "https://registry.npm.taobao.org/shebang-regex/download/shebang-regex-3.0.0.tgz#ae16f1644d873ecad843b0307b143362d4c42172"
     integrity sha1-rhbxZE2HPsrYQ7AwexQzYtTEIXI=
   
-  sigmund@^1.0.1:
-    version "1.0.1"
-    resolved "https://registry.npm.taobao.org/sigmund/download/sigmund-1.0.1.tgz#3ff21f198cad2175f9f3b781853fd94d0d19b590"
-    integrity sha1-P/IfGYytIXX587eBhT/ZTQ0ZtZA=
-  
   signal-exit@^3.0.0, signal-exit@^3.0.2:
     version "3.0.2"
     resolved "https://registry.npm.taobao.org/signal-exit/download/signal-exit-3.0.2.tgz#b5fdc08f1287ea1178628e415e25132b73646c6d"
@@ -8356,18 +8341,10 @@ Lockfile:
     resolved "https://registry.npm.taobao.org/typedarray/download/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
     integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
   
-  typescript-formatter@^7.2.2:
-    version "7.2.2"
-    resolved "https://registry.npm.taobao.org/typescript-formatter/download/typescript-formatter-7.2.2.tgz#a147181839b7bb09c2377b072f20f6336547c00a"
-    integrity sha1-oUcYGDm3uwnCN3sHLyD2M2VHwAo=
-    dependencies:
-      commandpost "^1.0.0"
-      editorconfig "^0.15.0"
-  
-  typescript@3.6.2:
-    version "3.6.2"
-    resolved "https://registry.npm.taobao.org/typescript/download/typescript-3.6.2.tgz#105b0f1934119dde543ac8eb71af3a91009efe54"
-    integrity sha1-EFsPGTQRnd5UOsjrca86kQCe/lQ=
+  typescript@3.6:
+    version "3.6.4"
+    resolved "https://registry.npm.taobao.org/typescript/download/typescript-3.6.4.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftypescript%2Fdownload%2Ftypescript-3.6.4.tgz#b18752bb3792bc1a0281335f7f6ebf1bbfc5b91d"
+    integrity sha1-sYdSuzeSvBoCgTNff26/G7/FuR0=
   
   unc-path-regex@^0.1.2:
     version "0.1.2"

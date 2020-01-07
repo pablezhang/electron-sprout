@@ -11,8 +11,7 @@
     "build": "concurrently \"yarn build-main\" \"yarn build-renderer\"",
     "build-main": "cross-env NODE_ENV=production webpack --config ./config/webpack/webpack.config.main.prod.babel.js --colors",
     "build-renderer": "cross-env NODE_ENV=production webpack --config ./config/webpack/webpack.config.renderer.prod.babel.js --colors",
-    "start-main-dev-normal": "cross-env HOT=1 NODE_ENV=development electron -r @babel/register ./src/sprout/main.entry.dev.js",
-    "start-main-dev-amd": "cross-env HOT=1 NODE_ENV=development electron ./src/main.js",
+    "start-main-dev": "cross-env HOT=1 NODE_ENV=development electron ./src/main.js",
     "package-production-win": "rm -rf ./release && yarn build && electron-builder build --win --ia32 --config ./config/builder/win-builder.yml",
     "dev": "cross-env START_HOT=1 webpack-dev-server --config ./config/webpack/webpack.config.renderer.dev.babel.js"
   },
@@ -22,6 +21,7 @@
     "@babel/core": "^7.6.4",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/plugin-proposal-decorators": "^7.6.0",
+    "@babel/plugin-syntax-decorators": "^7.7.4",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/plugin-transform-runtime": "^7.6.2",
     "@babel/preset-env": "^7.6.3",
@@ -33,7 +33,9 @@
     "@types/webpack-env": "^1.14.1",
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.0.6",
+    "babel-plugin-const-enum": "^0.0.5",
     "concurrently": "^5.0.0",
+    "core-js": "2.6.5",
     "cross-env": "^6.0.3",
     "electron": "6.0.9",
     "electron-builder": "^22.1.0",
@@ -56,6 +58,7 @@
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
+    "@babel/plugin-transform-typescript": "^7.7.4",
     "electron-log": "^3.0.9",
     "gulp": "^4.0.2"
   }

@@ -18,7 +18,7 @@ export const getDefaultUserDataPath = (platform: string) => {
 }
 
 export const getFlashPath = (platform: string) => {
-  const basePath = path.join(this.getDefaultUserDataPath(platform), '/flash').replace('file:', '');
+  const basePath = path.join(getDefaultUserDataPath(platform), '/flash').replace('file:', '');
 	switch (platform) {
 		case 'win32': return `${basePath}/pepflashplayer.dll` ;
 		case 'darwin': `${basePath}/PepperFlashPlayer.plugin`;
