@@ -7,7 +7,7 @@ const baseConfig = require('./webpack.config.base');
 module.exports = merge.smart(baseConfig, {
   devtool: 'source-map',
   mode: 'production',
-  entry: './src/main.ts',
+  entry: './src/main-process/main.ts',
   output: {
     path: path.join(__dirname, '../../'),
     filename: './dist/main.prod.js',

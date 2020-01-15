@@ -1,0 +1,29 @@
+artifactName: 'demo.${ext}' 
+appId: 'com.demo.pk'
+extraResources:
+  - 'test-extra/'
+files:
+  - 'resources/'
+  - 'dist/'
+  - '!node_modules'
+npmRebuild: false
+mac:
+  entitlements: configs/entitlements.mac.plist
+  hardenedRuntime: true
+  extendInfo:
+    NSMicrophoneUsageDescription: 请允许本程序访问您的麦克风
+    NSCameraUsageDescription: 请允许本程序访问您的摄像头
+dmg:
+  icon: 'resources/icon.ico'
+  title: '${productName}_${version}'
+  contents:
+    - x: 130
+      y: 135
+    - x: 360
+      y: 135
+      type: 'link'
+      path: '/Applications'
+
+directories:
+  buildResources: 'resources'
+  output: 'release/'

@@ -1,0 +1,30 @@
+artifactName: 'demo.${ext}' 
+appId: 'com.demo.pk'
+nsis:
+  oneClick: false
+  perMachine: true
+  allowElevation: true
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  runAfterFinish: true
+  installerIcon: 'resources/icon.ico'
+  uninstallerIcon: 'resources/icon.ico'
+extraResources:
+  - 'test-extra/'
+files:
+  - 'resources/'
+  - 'dist/'
+  - '!node_modules'
+win:
+  target:
+    - 'nsis'
+    - 'zip'
+  verifyUpdateCodeSignature: false
+  requestedExecutionLevel: 'requireAdministrator'
+  signingHashAlgorithms:
+    - 'sha1'
+    - 'sha256'
+
+directories:
+  buildResources: 'resources'
+  output: 'release/'

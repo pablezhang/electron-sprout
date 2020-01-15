@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const merge = require('webpack-merge');
@@ -42,6 +43,10 @@ module.exports = merge.smart(baseConfig, {
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'production',
     }),
+    new CopyWebpackPlugin([{
+			from: 'src/index.html',
+      to: 'index.html',
+    }]),
     new MiniCssExtractPlugin({
       filename: 'style.css',
     }),

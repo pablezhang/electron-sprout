@@ -3,21 +3,9 @@
     <head>
         <meta charset="utf-8">
         <title>electron-sprout</title>
-        <script>
-            (
-                function() {
-                    if (!process.env.HOT) { // production环境下，加载打包后的style.css，css处理在webpack里。
-                        const link = document.createElement('link');
-                        link.ref = 'stylesheet';
-                        link.href = '../dist/style.css';
-                    }
-                }
-            )
-        </script>
     </head>
     <body>
         <div id="root">
-          先写个hellowold在这，集成react的时候清掉
         </div>
     </body>
     <script>

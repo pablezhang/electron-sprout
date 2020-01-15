@@ -1,0 +1,1 @@
+这里面的图片按照`electorn-builder-resources.png`自己去准备吧，我的图是公司的，不给哈。
