@@ -16,5 +16,6 @@ export const createWindow = () => {
     },
   });
   win.webContents.openDevTools();
-  win.loadURL(`file://${__dirname}/../dist/index.html`);
+  const url = process.env.NODE_ENV=='development' ? `file://${__dirname}/../index.html` : `file://${__dirname}/../dist/index.html`;
+  win.loadURL(url);
 };
