@@ -1,6 +1,7 @@
 ## 启动
 ```bash
-    ELECTRON_MIRROR=https://npm.taobao.org/mirrors/electron/ yarn add electron@6.0.9  -D
+    yarn global add cross-env
+    cross-env ELECTRON_MIRROR=https://npm.taobao.org/mirrors/electron/ yarn add electron@6.0.9  -D
     yarn install
 
 ```
